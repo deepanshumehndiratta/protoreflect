@@ -27,6 +27,15 @@ func NewExtensionRegistryWithDefaults() *ExtensionRegistry {
 	return &ExtensionRegistry{includeDefault: true}
 }
 
+// NewExtensionRegistryWithoutDefaults is a registry that does not include the "default"
+// extensions, which are those that are statically linked into the current program
+// (e.g. registered by protoc-generated code via proto.RegisterExtension). Extensions need
+// to be added to the registry and will override any already added extensions that are for
+// the same extendee and have the same tag number and/or name.
+func NewExtensionRegistryWithoutDefaults() *ExtensionRegistry {
+	return &ExtensionRegistry{includeDefault: false}
+}
+
 // AddExtensionDesc adds the given extensions to the registry.
 func (r *ExtensionRegistry) AddExtensionDesc(exts ...*proto.ExtensionDesc) error {
 	flds := make([]*desc.FieldDescriptor, len(exts))
